@@ -38,7 +38,8 @@ if($num>0){
             "id_actividad" => $id,
             "nombre_actividad" => $name,
             "estado" => $estado,
-            "fecha" => $fecha
+            "fecha" => $fecha,
+            "link" => $link
         );
  
         array_push($actividad_arr["records"], $actividad_item);

@@ -7,13 +7,10 @@ class Alumnos{
  
     // object properties
     public $id;
-    public $name;
+    public $nombre_alumno;
     public $cif;
-    /*
-    public $price;
-    public $category_id;
-    public $category_name;
-    public $created;*/
+    public $id_facultad;
+    public $id_actividad;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -47,24 +44,22 @@ class Alumnos{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                name=:name, price=:price, description=:description, category_id=:category_id, created=:created";
+                nombre_alumno=:nombre_alumno, cif=:cif, id_facultad=:id_facultad, id_actividad=:id_actividad";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->price=htmlspecialchars(strip_tags($this->price));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-        $this->created=htmlspecialchars(strip_tags($this->created));
+        $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
+        $this->cif=htmlspecialchars(strip_tags($this->cif));
+        $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
+        $this->id_actividad=htmlspecialchars(strip_tags($this->id_actividad));
  
         // bind values
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":category_id", $this->category_id);
-        $stmt->bindParam(":created", $this->created);
+        $stmt->bindParam(":nombre_alumno", $this->nombre_alumno);
+        $stmt->bindParam(":cif", $this->cif);
+        $stmt->bindParam(":id_facultad", $this->id_facultad);
+        $stmt->bindParam(":id_actividad", $this->id_actividad);
  
         // execute query
         if($stmt->execute()){

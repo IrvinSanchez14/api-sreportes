@@ -10,6 +10,7 @@ class Actividades{
     public $name;
     public $estado;
     public $fecha;
+    public $link;
     /*
     public $category_id;
     public $category_name;
@@ -25,11 +26,11 @@ class Actividades{
  
         // select all query
         $query = "SELECT
-               p. id_actividades as id, p.nombre_act as name, p.estado as estado, p.fecha as fecha
+               p. id_actividades as id, p.nombre_act as name, p.estado as estado, p.fecha as fecha, p.link_act as link
             FROM
                 " . $this->table_name . " p
             ORDER BY
-                p.id_actividades DESC";
+                p.id_actividades ASC";
  
         // prepare query statement
         $stmt = $this->conn->prepare($query);
