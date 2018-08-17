@@ -1,16 +1,15 @@
 <?php
-class Alumnos{
+class coment_act{
  
     // database connection and table name
     private $conn;
-    private $table_name = "alumnos";
+    private $table_name = "coment_act";
  
     // object properties
-    public $id;
-    public $nombre_alumno;
-    public $cif;
-    public $id_facultad;
+    public $id_alumno;
     public $id_actividad;
+    public $expectativas;
+    public $ideas;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -44,22 +43,22 @@ class Alumnos{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                nombre_alumno=:nombre_alumno, cif=:cif, id_facultad=:id_facultad, id_actividad=:id_actividad;";
+                id_alumno=:id_alumno, id_actividad=:id_actividad, expectativas=:expectativas, ideas=:ideas;";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
-        $this->cif=htmlspecialchars(strip_tags($this->cif));
-        $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
         $this->id_actividad=htmlspecialchars(strip_tags($this->id_actividad));
+        $this->expectativas=htmlspecialchars(strip_tags($this->expectativas));
+        $this->ideas=htmlspecialchars(strip_tags($this->ideas));
  
         // bind values
-        $stmt->bindParam(":nombre_alumno", $this->nombre_alumno);
-        $stmt->bindParam(":cif", $this->cif);
-        $stmt->bindParam(":id_facultad", $this->id_facultad);
+        $stmt->bindParam(":id_alumno", $this->id_alumno);
         $stmt->bindParam(":id_actividad", $this->id_actividad);
+        $stmt->bindParam(":expectativas", $this->expectativas);
+        $stmt->bindParam(":ideas", $this->ideas);
  
         // execute query
         if($stmt->execute()){

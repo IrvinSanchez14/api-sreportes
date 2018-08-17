@@ -1,16 +1,15 @@
 <?php
-class Alumnos{
+class iglesia_est{
  
     // database connection and table name
     private $conn;
-    private $table_name = "alumnos";
+    private $table_name = "iglesia_est";
  
     // object properties
-    public $id;
-    public $nombre_alumno;
-    public $cif;
-    public $id_facultad;
-    public $id_actividad;
+    public $id_alumno;
+    public $asistencia;
+    public $nombre_iglesia;
+    public $anios_es;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -44,22 +43,22 @@ class Alumnos{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                nombre_alumno=:nombre_alumno, cif=:cif, id_facultad=:id_facultad, id_actividad=:id_actividad;";
+                id_alumno=:id_alumno, asistencia=:asistencia, nombre_iglesia=:nombre_iglesia, anios_es=:anios_es;";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
-        $this->cif=htmlspecialchars(strip_tags($this->cif));
-        $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
-        $this->id_actividad=htmlspecialchars(strip_tags($this->id_actividad));
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+        $this->asistencia=htmlspecialchars(strip_tags($this->asistencia));
+        $this->nombre_iglesia=htmlspecialchars(strip_tags($this->nombre_iglesia));
+        $this->anios_es=htmlspecialchars(strip_tags($this->anios_es));
  
         // bind values
-        $stmt->bindParam(":nombre_alumno", $this->nombre_alumno);
-        $stmt->bindParam(":cif", $this->cif);
-        $stmt->bindParam(":id_facultad", $this->id_facultad);
-        $stmt->bindParam(":id_actividad", $this->id_actividad);
+        $stmt->bindParam(":id_alumno", $this->id_alumno);
+        $stmt->bindParam(":asistencia", $this->asistencia);
+        $stmt->bindParam(":nombre_iglesia", $this->nombre_iglesia);
+        $stmt->bindParam(":anios_es", $this->anios_es);
  
         // execute query
         if($stmt->execute()){

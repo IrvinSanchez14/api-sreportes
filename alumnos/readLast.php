@@ -15,7 +15,7 @@ $db = $database->getConnection();
 $alumnos = new Alumnos($db);
  
 // query products
-$stmt = $alumnos->read();
+$stmt = $alumnos->readLastId();
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
@@ -37,7 +37,6 @@ if($num>0){
         $alumno_item=array(
             "id_alumno" => $id,
             "nombre_alumno" => $nombre_alumno,
-            "cif" => $cif
         );
  
         array_push($alumnos_arr["records"], $alumno_item);

@@ -1,16 +1,14 @@
 <?php
-class Alumnos{
+class enc_sat{
  
     // database connection and table name
     private $conn;
-    private $table_name = "alumnos";
+    private $table_name = "enc_sat";
  
     // object properties
-    public $id;
-    public $nombre_alumno;
-    public $cif;
-    public $id_facultad;
-    public $id_actividad;
+    public $num_pr;
+    public $num_rest;
+    public $id_alumno;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -22,11 +20,11 @@ class Alumnos{
  
         // select all query
         $query = "SELECT
-               p. id_alumno as id, p.nombre_alumno as nombre_alumno, p.CIF as cif
+               p. id_almex as id, p.email as email, p.telefono as telefono, p.facebook as facebook, p.id_alumno as ida
             FROM
                 " . $this->table_name . " p
             ORDER BY
-                p.id_alumno DESC";
+                p.id_almex DESC";
  
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -44,22 +42,20 @@ class Alumnos{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                nombre_alumno=:nombre_alumno, cif=:cif, id_facultad=:id_facultad, id_actividad=:id_actividad;";
+                num_pr=:num_pr, num_rest=:num_rest, id_alumno=:id_alumno";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
-        $this->cif=htmlspecialchars(strip_tags($this->cif));
-        $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
-        $this->id_actividad=htmlspecialchars(strip_tags($this->id_actividad));
+        $this->num_pr=htmlspecialchars(strip_tags($this->num_pr));
+        $this->num_rest=htmlspecialchars(strip_tags($this->num_rest));
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
  
         // bind values
-        $stmt->bindParam(":nombre_alumno", $this->nombre_alumno);
-        $stmt->bindParam(":cif", $this->cif);
-        $stmt->bindParam(":id_facultad", $this->id_facultad);
-        $stmt->bindParam(":id_actividad", $this->id_actividad);
+        $stmt->bindParam(":num_pr", $this->num_pr);
+        $stmt->bindParam(":num_rest", $this->num_rest);
+        $stmt->bindParam(":id_alumno", $this->id_alumno);
  
         // execute query
         if($stmt->execute()){
@@ -70,25 +66,39 @@ class Alumnos{
     }
 
     // used when filling up the update product form
-function readLastId(){
+function readOne(){
  
     // query to read single record
     $query = "SELECT
-                id_alumno as id, p.nombre_alumno as nombre_alumno
+                c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
             FROM
                 " . $this->table_name . " p
-            ORDER BY id_alumno 
-
-            DESC LIMIT 1";
+                LEFT JOIN
+                    categories c
+                        ON p.category_id = c.id
+            WHERE
+                p.id = ?
+            LIMIT
+                0,1";
  
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
  
+    // bind id of product to be updated
+    $stmt->bindParam(1, $this->id);
  
     // execute query
     $stmt->execute();
-
-    return $stmt;
+ 
+    // get retrieved row
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+    // set values to object properties
+    $this->name = $row['name'];
+    $this->price = $row['price'];
+    $this->description = $row['description'];
+    $this->category_id = $row['category_id'];
+    $this->category_name = $row['category_name'];
 }
 
 // update the product

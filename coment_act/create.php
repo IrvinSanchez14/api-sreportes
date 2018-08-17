@@ -9,34 +9,34 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
 
-// instantiate alumno object
-include_once '../objects/alum_extra.php';
+// instantiate coment object
+include_once '../objects/coment_act.php';
 
 $database = new Database();
 $db = $database->getConnection();
  //new comment 
-$alumno = new alum_extra($db);
+$coment = new coment_act($db);
 
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// set alumno property values
-$alumno->email = $data->email;
-$alumno->telefono = $data->telefono;
-$alumno->facebook = $data->facebook;
-$alumno->id_alumno = $data->id_alumno;
+// set coment property values
+$coment->id_alumno = $data->id_alumno;
+$coment->id_actividad = $data->id_actividad;
+$coment->expectativas = $data->expectativas;
+$coment->ideas = $data->ideas;
 
-// create the alumno
-if($alumno->create()){
+// create the coment
+if($coment->create()){
     echo '{';
-        echo '"message": "alumno was created."';
+        echo '"message": "coment was created."';
     echo '}';
 }
 
-// if unable to create the alumno, tell the user
+// if unable to create the coment, tell the user
 else{
     echo '{';
-        echo '"message": "Unable to create alumno."';
+        echo '"message": "Unable to create coment."';
     echo '}';
 }
 ?>

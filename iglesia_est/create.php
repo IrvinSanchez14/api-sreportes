@@ -9,34 +9,34 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
 
-// instantiate alumno object
-include_once '../objects/alum_extra.php';
+// instantiate iglesia object
+include_once '../objects/iglesia_est.php';
 
 $database = new Database();
 $db = $database->getConnection();
  //new comment 
-$alumno = new alum_extra($db);
+$iglesia = new iglesia_est($db);
 
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// set alumno property values
-$alumno->email = $data->email;
-$alumno->telefono = $data->telefono;
-$alumno->facebook = $data->facebook;
-$alumno->id_alumno = $data->id_alumno;
+// set iglesia property values
+$iglesia->id_alumno = $data->id_alumno;
+$iglesia->asistencia = $data->asistencia;
+$iglesia->nombre_iglesia = $data->nombre_iglesia;
+$iglesia->anios_es = $data->anios_es;
 
-// create the alumno
-if($alumno->create()){
+// create the iglesia
+if($iglesia->create()){
     echo '{';
-        echo '"message": "alumno was created."';
+        echo '"message": "iglesia was created."';
     echo '}';
 }
 
-// if unable to create the alumno, tell the user
+// if unable to create the iglesia, tell the user
 else{
     echo '{';
-        echo '"message": "Unable to create alumno."';
+        echo '"message": "Unable to create iglesia."';
     echo '}';
 }
 ?>
