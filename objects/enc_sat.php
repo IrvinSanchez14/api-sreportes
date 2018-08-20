@@ -35,6 +35,23 @@ class enc_sat{
         return $stmt;
     }
 
+    function tableEnc() {
+
+        $query = "SELECT t1.id_alumno as id ,t1.nombre_alumno, t1.cif, t3.nombre_fac, t2.num_pr, t2.num_rest
+                FROM alumnos t1
+                    inner join  " . $this->table_name . "  t2 on t1.id_alumno=t2.id_alumno
+                    LEFT JOIN facultad t3 on t1.id_facultad=t3.id_facultad
+                        order by t1.id_alumno ASC";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+         $stmt->execute();
+
+        return $stmt;
+    }
+
     // create product
     function create(){
  

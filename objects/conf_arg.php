@@ -1,16 +1,15 @@
 <?php
-class Alumnos{
+class conf_arg{
  
     // database connection and table name
     private $conn;
-    private $table_name = "alumnos";
+    private $table_name = "conf_arg";
  
     // object properties
-    public $id;
-    public $nombre_alumno;
-    public $cif;
-    public $id_facultad;
-    public $id_actividad;
+    public $benf_adq;
+    public $opn_con;
+    public $desc_est;
+    public $id_alumno;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -37,22 +36,6 @@ class Alumnos{
         return $stmt;
     }
 
-    function bEspecial() {
-        $query = "  SELECT t1.id_alumno as id,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono, t2.facebook, t3.expectativas, t3.ideas, t4.asistencia, t4.nombre_iglesia, t4.anios_es
-            FROM " . $this ->table_name . " t1
-            INNER JOIN alum_extra t2 on t1.id_alumno=t2.id_alumno
-            INNER JOIN coment_act t3 on t1.id_alumno=t3.id_alumno
-            INNER JOIN iglesia_est t4 on t1.id_alumno= t4.id_alumno
-                GROUP BY t1.id_alumno
-                ORDER BY t1.id_alumno ASC";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->execute();
-
-        return $stmt;
-    }
-
     // create product
     function create(){
  
@@ -60,22 +43,22 @@ class Alumnos{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                nombre_alumno=:nombre_alumno, cif=:cif, id_facultad=:id_facultad, id_actividad=:id_actividad;";
+                benf_adq=:benf_adq, opn_con=:opn_con, desc_est=:desc_est, id_alumno=:id_alumno";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
-        $this->cif=htmlspecialchars(strip_tags($this->cif));
-        $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
-        $this->id_actividad=htmlspecialchars(strip_tags($this->id_actividad));
+        $this->benf_adq=htmlspecialchars(strip_tags($this->benf_adq));
+        $this->opn_con=htmlspecialchars(strip_tags($this->opn_con));
+        $this->desc_est=htmlspecialchars(strip_tags($this->desc_est));
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
  
         // bind values
-        $stmt->bindParam(":nombre_alumno", $this->nombre_alumno);
-        $stmt->bindParam(":cif", $this->cif);
-        $stmt->bindParam(":id_facultad", $this->id_facultad);
-        $stmt->bindParam(":id_actividad", $this->id_actividad);
+        $stmt->bindParam(":benf_adq", $this->benf_adq);
+        $stmt->bindParam(":opn_con", $this->opn_con);
+        $stmt->bindParam(":desc_est", $this->desc_est);
+        $stmt->bindParam(":id_alumno", $this->id_alumno);
  
         // execute query
         if($stmt->execute()){
