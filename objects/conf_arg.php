@@ -36,6 +36,39 @@ class conf_arg{
         return $stmt;
     }
 
+    function tableConf() {
+
+        $query = "SELECT
+            t1.id_alumno as id, t1.nombre_alumno, t1.cif, t5.valor, t2.email, t2.telefono,
+            t6.nombre_fac, t2.facebook, t3.benf_adq, t4.asistencia, t4.nombre_iglesia, 
+            t3.opn_con, t3.desc_est
+        FROM 
+            alumnos t1
+        INNER JOIN 
+            alum_extra t2 on t1.id_alumno=t2.id_alumno
+        INNER JOIN 
+            " . $this->table_name . "  t3 on t1.id_alumno=t3.id_alumno
+        INNER JOIN 
+            iglesia_est t4 on t1.id_alumno=t4.id_alumno
+        INNER JOIN 
+            ciclo t5 on t1.id_alumno=t5.id_alumno
+        INNER JOIN 
+            facultad t6 on t1.id_facultad=t6.id_facultad
+        WHERE 
+            t1.estado=0
+        GROUP BY 
+            t1.id_alumno
+        ORDER BY 
+            t1.id_alumno ASC";
+        
+        $stmt = $this->conn->prepare($query);
+ 
+        // execute query
+        $stmt->execute();
+ 
+        return $stmt;
+    }
+
     // create product
     function create(){
  

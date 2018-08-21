@@ -6,8 +6,14 @@ class enc_sat{
     private $table_name = "enc_sat";
  
     // object properties
-    public $num_pr;
-    public $num_rest;
+    public $id;
+    public $num_res1;
+    public $num_res2;
+    public $num_res3;
+    public $num_res4;
+    public $num_res5;
+    public $num_res6;
+    public $num_res7;
     public $id_alumno;
  
     // constructor with $db as database connection
@@ -37,11 +43,12 @@ class enc_sat{
 
     function tableEnc() {
 
-        $query = "SELECT t1.id_alumno as id ,t1.nombre_alumno, t1.cif, t3.nombre_fac, t2.num_pr, t2.num_rest
-                FROM alumnos t1
-                    inner join  " . $this->table_name . "  t2 on t1.id_alumno=t2.id_alumno
-                    LEFT JOIN facultad t3 on t1.id_facultad=t3.id_facultad
-                        order by t1.id_alumno ASC";
+        $query = "SELECT t1.id_alumno as id, t1.nombre_alumno, t1.cif, t1.fecha, t3.nombre_fac, t2.num_res1, t2.num_res2, t2.num_res3, t2.num_res4, t2.num_res5, t2.num_res6, t2.num_res7
+        FROM alumnos t1
+            inner join  " . $this->table_name . " t2 on t1.id_alumno=t2.id_alumno
+            LEFT JOIN facultad t3 on t1.id_facultad=t3.id_facultad
+                    group by t1.id_alumno
+                order by t1.id_alumno ASC";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -59,19 +66,29 @@ class enc_sat{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                num_pr=:num_pr, num_rest=:num_rest, id_alumno=:id_alumno";
+                num_res1=:num_res1, num_res2=:num_res2, num_res3=:num_res3, num_res4=:num_res4, num_res5=:num_res5, num_res6=:num_res6, num_res7=:num_res7, id_alumno=:id_alumno";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->num_pr=htmlspecialchars(strip_tags($this->num_pr));
-        $this->num_rest=htmlspecialchars(strip_tags($this->num_rest));
+        $this->num_res1=htmlspecialchars(strip_tags($this->num_res1));
+        $this->num_res2=htmlspecialchars(strip_tags($this->num_res2));
+        $this->num_res3=htmlspecialchars(strip_tags($this->num_res3));
+        $this->num_res4=htmlspecialchars(strip_tags($this->num_res4));
+        $this->num_res5=htmlspecialchars(strip_tags($this->num_res5));
+        $this->num_res6=htmlspecialchars(strip_tags($this->num_res6));
+        $this->num_res7=htmlspecialchars(strip_tags($this->num_res7));
         $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
  
         // bind values
-        $stmt->bindParam(":num_pr", $this->num_pr);
-        $stmt->bindParam(":num_rest", $this->num_rest);
+        $stmt->bindParam(":num_res1", $this->num_res1);
+        $stmt->bindParam(":num_res2", $this->num_res2);
+        $stmt->bindParam(":num_res3", $this->num_res3);
+        $stmt->bindParam(":num_res4", $this->num_res4);
+        $stmt->bindParam(":num_res5", $this->num_res5);
+        $stmt->bindParam(":num_res6", $this->num_res6);
+        $stmt->bindParam(":num_res7", $this->num_res7);
         $stmt->bindParam(":id_alumno", $this->id_alumno);
  
         // execute query

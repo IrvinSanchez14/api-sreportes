@@ -22,8 +22,13 @@ $data = json_decode(file_get_contents("php://input"));
 
 
 // set coment property values
-$coment->num_pr = $data->num_pr;
-$coment->num_rest = $data->num_rest;
+$coment->num_res1 = $data->num_res1;
+$coment->num_res2 = $data->num_res2;
+$coment->num_res3 = $data->num_res3;
+$coment->num_res4 = $data->num_res4;
+$coment->num_res5 = $data->num_res5;
+$coment->num_res6 = $data->num_res6;
+$coment->num_res7 = $data->num_res7;
 $coment->id_alumno = $data->id_alumno;
 
 // create the coment

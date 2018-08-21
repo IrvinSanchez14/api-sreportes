@@ -5,17 +5,17 @@ header("Content-Type: application/json; charset=UTF-8");
  
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/enc_sat.php';
+include_once '../objects/conf_arg.php';
  
 // instantiate database and product object
 $database = new Database();
 $db = $database->getConnection();
  
 // initialize object
-$alumnos = new enc_sat($db);
+$alumnos = new conf_arg($db);
  
 // query products
-$stmt = $alumnos->tableEnc();
+$stmt = $alumnos->tableConf();
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
@@ -38,9 +38,6 @@ if($num>0){
             "id_alumno" => $id,
             "nombre_alumno" => $nombre_alumno,
             "cif" => $cif,
-            "nombre_fac" => $nombre_fac,
-            "num_res1" => $num_res1,
-            "num_res2" => $num_res2
 
         );
  
