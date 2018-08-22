@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
   `id_actividad` int(11) DEFAULT NULL,
   `estado` int(11) DEFAULT '0',
   PRIMARY KEY (`id_alumno`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.alumnos: ~4 rows (approximately)
+-- Dumping data for table tesis_db.alumnos: ~19 rows (approximately)
 DELETE FROM `alumnos`;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
 INSERT INTO `alumnos` (`id_alumno`, `nombre_alumno`, `cif`, `fecha`, `id_facultad`, `id_actividad`, `estado`) VALUES
@@ -56,7 +56,21 @@ INSERT INTO `alumnos` (`id_alumno`, `nombre_alumno`, `cif`, `fecha`, `id_faculta
 	(75, 'Irvn Sanchez', '2013010360', '2018-08-20 08:42:24', 1, 1, 0),
 	(76, 'Irvn Sanchez', '2013010360', '2018-08-20 08:42:42', 1, 1, 0),
 	(77, 'Ruben anaya', '2198415615', '2018-08-20 11:55:06', 2, 1, 0),
-	(78, 'chicky', '8965', '2018-08-20 14:38:50', 3, 2, 0);
+	(78, 'chicky', '8965', '2018-08-20 14:38:50', 3, 2, 0),
+	(79, 'Ruben anaya', '7896', '2018-08-21 06:55:24', 6, 2, 0),
+	(80, 'Ruben anaya', '1563', '2018-08-21 07:06:14', 1, 2, 0),
+	(81, 'Ruben anaya', '1563', '2018-08-21 07:06:42', 1, 2, 0),
+	(82, 'Ruben anaya', '1563', '2018-08-21 07:07:58', 1, 2, 0),
+	(83, 'Ruben anaya', '8549841516', '2018-08-21 07:08:23', 1, 2, 0),
+	(84, 'Ruben anaya', '21312', '2018-08-21 07:12:06', 1, 2, 0),
+	(85, 'Irvn Sanchez', '8549841516', '2018-08-21 07:13:32', 1, 2, 0),
+	(86, 'Irvn Sanchez', '8549841516', '2018-08-21 07:14:30', 1, 2, 0),
+	(90, 'Irvn Sanchez', '1563', '2018-08-21 08:08:17', 2, 2, 0),
+	(91, '', '', '2018-08-21 08:10:19', 0, 0, 0),
+	(92, 'Ruben anaya', 'w', '2018-08-21 08:10:51', 1, 2, 0),
+	(93, 'sdfsdfsdfsdf', '45646', '2018-08-21 08:11:40', 1, 2, 0),
+	(94, 'Irvn Sanchez', '22556', '2018-08-21 08:17:36', 1, 4, 0),
+	(95, 'Kevin Sanchez', '784981456', '2018-08-21 09:24:07', 1, 4, 0);
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 
 -- Dumping structure for table tesis_db.alum_extra
@@ -69,15 +83,37 @@ CREATE TABLE IF NOT EXISTS `alum_extra` (
   PRIMARY KEY (`id_almex`),
   KEY `FK_alum_extra_alumnos` (`id_alumno`),
   CONSTRAINT `FK_alum_extra_alumnos` FOREIGN KEY (`id_alumno`) REFERENCES `alumnos` (`id_alumno`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.alum_extra: ~2 rows (approximately)
+-- Dumping data for table tesis_db.alum_extra: ~4 rows (approximately)
 DELETE FROM `alum_extra`;
 /*!40000 ALTER TABLE `alum_extra` DISABLE KEYS */;
 INSERT INTO `alum_extra` (`id_almex`, `email`, `telefono`, `facebook`, `id_alumno`) VALUES
 	(9, 'isanchez@serenova.com', '22262051', 'Irvin Sanchez', 76),
-	(10, 'isanchez@serenova.com', '895625', 'ruben', 77);
+	(10, 'isanchez@serenova.com', '895625', 'ruben', 77),
+	(11, 'isanchez@serenova.com', '22262051', 'Irvin Sanchez', 94),
+	(12, 'kevin@hotmail.com', '51456136', 'wer', 95);
 /*!40000 ALTER TABLE `alum_extra` ENABLE KEYS */;
+
+-- Dumping structure for table tesis_db.archivos
+CREATE TABLE IF NOT EXISTS `archivos` (
+  `id_archivo` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `size` varchar(15) DEFAULT NULL,
+  `tipo` varchar(60) DEFAULT NULL,
+  `estado` bit(1) DEFAULT b'0',
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_archivo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table tesis_db.archivos: ~0 rows (approximately)
+DELETE FROM `archivos`;
+/*!40000 ALTER TABLE `archivos` DISABLE KEYS */;
+INSERT INTO `archivos` (`id_archivo`, `nombre`, `size`, `tipo`, `estado`, `fecha`) VALUES
+	(1, '', '', '', b'0', '2018-08-22 14:22:21'),
+	(2, 'CELDAS.xlsx', '26214400', 'application/vnd.openxmlformats-officedocument.spreadsheetml.', b'0', '2018-08-22 14:46:56'),
+	(3, '22ip6m.jpg', '49585', 'image/jpeg', b'0', '2018-08-22 14:28:11');
+/*!40000 ALTER TABLE `archivos` ENABLE KEYS */;
 
 -- Dumping structure for table tesis_db.ciclo
 CREATE TABLE IF NOT EXISTS `ciclo` (
@@ -86,9 +122,9 @@ CREATE TABLE IF NOT EXISTS `ciclo` (
   `id_actividad` int(11) DEFAULT NULL,
   `id_alumno` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_ciclo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.ciclo: ~6 rows (approximately)
+-- Dumping data for table tesis_db.ciclo: ~8 rows (approximately)
 DELETE FROM `ciclo`;
 /*!40000 ALTER TABLE `ciclo` DISABLE KEYS */;
 INSERT INTO `ciclo` (`id_ciclo`, `valor`, `id_actividad`, `id_alumno`) VALUES
@@ -97,7 +133,9 @@ INSERT INTO `ciclo` (`id_ciclo`, `valor`, `id_actividad`, `id_alumno`) VALUES
 	(3, 0, 4, 71),
 	(4, 0, 4, 72),
 	(5, 0, 4, 73),
-	(6, 0, 4, 74);
+	(6, 0, 4, 74),
+	(7, 0, 4, 94),
+	(8, 1, 4, 95);
 /*!40000 ALTER TABLE `ciclo` ENABLE KEYS */;
 
 -- Dumping structure for table tesis_db.coment_act
@@ -112,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `coment_act` (
   PRIMARY KEY (`id_coment`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.coment_act: ~3 rows (approximately)
+-- Dumping data for table tesis_db.coment_act: ~2 rows (approximately)
 DELETE FROM `coment_act`;
 /*!40000 ALTER TABLE `coment_act` DISABLE KEYS */;
 INSERT INTO `coment_act` (`id_coment`, `id_alumno`, `id_actividad`, `expectativas`, `ideas`, `estado`, `fecha`) VALUES
@@ -131,39 +169,43 @@ CREATE TABLE IF NOT EXISTS `conf_arg` (
   `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id_alumno` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_conf`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.conf_arg: ~3 rows (approximately)
+-- Dumping data for table tesis_db.conf_arg: ~5 rows (approximately)
 DELETE FROM `conf_arg`;
 /*!40000 ALTER TABLE `conf_arg` DISABLE KEYS */;
 INSERT INTO `conf_arg` (`id_conf`, `benf_adq`, `opn_con`, `desc_est`, `estado`, `fecha`, `id_alumno`) VALUES
 	(1, '1', 1, 0, 0, '2018-08-20 08:09:31', 1),
 	(2, '', 0, 0, 0, '2018-08-20 08:12:57', 0),
-	(3, 'muchos gracias', 1, 1, 0, '2018-08-20 08:14:48', 74);
+	(3, 'muchos gracias', 1, 1, 0, '2018-08-20 08:14:48', 74),
+	(4, 'muchos gracias', 1, 1, 0, '2018-08-21 08:17:37', 94),
+	(5, 'muchos gracias', 3, 2, 0, '2018-08-21 09:24:07', 95);
 /*!40000 ALTER TABLE `conf_arg` ENABLE KEYS */;
 
 -- Dumping structure for table tesis_db.enc_sat
 CREATE TABLE IF NOT EXISTS `enc_sat` (
   `id_encu` int(11) NOT NULL AUTO_INCREMENT,
-  `num_pr` int(11) DEFAULT NULL,
-  `num_rest` int(11) DEFAULT NULL,
+  `num_res1` varchar(50) DEFAULT NULL,
+  `num_res2` varchar(50) DEFAULT NULL,
+  `num_res3` varchar(50) DEFAULT NULL,
+  `num_res4` varchar(50) DEFAULT NULL,
+  `num_res5` varchar(50) DEFAULT NULL,
+  `num_res6` varchar(50) DEFAULT NULL,
+  `num_res7` varchar(50) DEFAULT NULL,
   `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `estado` int(11) DEFAULT '0',
   `id_alumno` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_encu`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.enc_sat: ~0 rows (approximately)
+-- Dumping data for table tesis_db.enc_sat: ~4 rows (approximately)
 DELETE FROM `enc_sat`;
 /*!40000 ALTER TABLE `enc_sat` DISABLE KEYS */;
-INSERT INTO `enc_sat` (`id_encu`, `num_pr`, `num_rest`, `fecha`, `estado`, `id_alumno`) VALUES
-	(1, 0, 1, '2018-08-20 14:38:50', 0, 78),
-	(2, 1, 3, '2018-08-20 14:38:50', 0, 78),
-	(3, 2, 4, '2018-08-20 14:38:50', 0, 78),
-	(4, 5, 2, '2018-08-20 14:38:50', 0, 78),
-	(5, 4, 4, '2018-08-20 14:38:50', 0, 78),
-	(6, 6, 1, '2018-08-20 14:38:50', 0, 78),
-	(7, 3, 5, '2018-08-20 14:38:50', 0, 78);
+INSERT INTO `enc_sat` (`id_encu`, `num_res1`, `num_res2`, `num_res3`, `num_res4`, `num_res5`, `num_res6`, `num_res7`, `fecha`, `estado`, `id_alumno`) VALUES
+	(1, 'Necesita mejorar', 'Regular', 'Regular', 'Bueno', 'Muy Bueno', 'Excelente', 'Excelente', '2018-08-21 08:05:40', 0, 89),
+	(2, 'Necesita mejorar', 'Excelente', 'Muy Bueno', 'Regular', 'Necesita mejorar', 'Necesita mejorar', 'Bueno', '2018-08-21 08:06:50', 0, 90),
+	(3, 'Necesita mejorar', 'Regular', 'Bueno', 'Muy Bueno', 'Excelente', 'Muy Bueno', 'Regular', '2018-08-21 08:08:21', 0, 91),
+	(4, 'Seleccione una opción', 'Seleccione una opción', 'Seleccione una opción', 'Seleccione una opción', 'Seleccione una opción', 'Seleccione una opción', 'Seleccione una opción', '2018-08-21 08:11:40', 0, 93);
 /*!40000 ALTER TABLE `enc_sat` ENABLE KEYS */;
 
 -- Dumping structure for table tesis_db.facultad
@@ -197,9 +239,9 @@ CREATE TABLE IF NOT EXISTS `iglesia_est` (
   `estado` int(11) DEFAULT '0',
   `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_iglesia`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tesis_db.iglesia_est: ~12 rows (approximately)
+-- Dumping data for table tesis_db.iglesia_est: ~14 rows (approximately)
 DELETE FROM `iglesia_est`;
 /*!40000 ALTER TABLE `iglesia_est` DISABLE KEYS */;
 INSERT INTO `iglesia_est` (`id_iglesia`, `id_alumno`, `asistencia`, `nombre_iglesia`, `anios_es`, `estado`, `fecha`) VALUES
@@ -214,7 +256,9 @@ INSERT INTO `iglesia_est` (`id_iglesia`, `id_alumno`, `asistencia`, `nombre_igle
 	(9, 74, 2, 'no', 0, 0, '2018-08-20 08:14:48'),
 	(10, 2, 1, 'Ricaldone', 12, 0, '2018-08-20 08:42:24'),
 	(11, 76, 1, 'Ricaldone', 12, 0, '2018-08-20 08:42:42'),
-	(12, 77, 1, 'La pampa', 5, 0, '2018-08-20 11:55:06');
+	(12, 77, 1, 'La pampa', 5, 0, '2018-08-20 11:55:06'),
+	(13, 94, 1, 'tt', 0, 0, '2018-08-21 08:17:37'),
+	(14, 95, 2, 'no', 0, 0, '2018-08-21 09:24:07');
 /*!40000 ALTER TABLE `iglesia_est` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
