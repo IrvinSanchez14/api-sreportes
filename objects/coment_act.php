@@ -10,6 +10,8 @@ class coment_act{
     public $id_actividad;
     public $expectativas;
     public $ideas;
+    public $nombre_fac;
+    public $numero;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -26,6 +28,29 @@ class coment_act{
                 " . $this->table_name . " p
             ORDER BY
                 p.id_alumno DESC";
+ 
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+ 
+        // execute query
+        $stmt->execute();
+ 
+        return $stmt;
+    }
+
+    function readChar(){
+ 
+        // select all query
+        $query = "SELECT
+                    t3.nombre_fac, COUNT(t1.id_facultad) as numero
+        FROM
+            alumnos t1
+        INNER JOIN
+            coment_act t2 on t1.id_alumno=t2.id_alumno
+        INNER JOIN
+            facultad t3 on t1.id_facultad=t3.id_facultad
+        GROUP BY
+            t1.id_facultad";
  
         // prepare query statement
         $stmt = $this->conn->prepare($query);
