@@ -10,6 +10,7 @@ class archivos{
     public $nombre;
     public $size;
     public $tipo;
+    public $fecha;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -21,11 +22,11 @@ class archivos{
  
         // select all query
         $query = "SELECT
-               p. id_alumno as id, p.nombre_alumno as nombre_alumno, p.CIF as cif
-            FROM
-                " . $this->table_name . " p
-            ORDER BY
-                p.id_alumno DESC";
+                    t1.id_archivo as id, t1.nombre, ROUND(SUM(t1.size / 1048576),2) as size, date(t1.fecha) as fecha
+        FROM 
+            archivos t1
+        GROUP BY 
+            t1.id_archivo";
  
         // prepare query statement
         $stmt = $this->conn->prepare($query);
