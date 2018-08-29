@@ -10,6 +10,7 @@ class iglesia_est{
     public $asistencia;
     public $nombre_iglesia;
     public $anios_es;
+    public $resultado;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -66,6 +67,57 @@ class iglesia_est{
         }else{
             return false;
         }
+    }
+
+    function readAsisbv() {
+                // select all query
+                $query = "SELECT
+                            IF(t2.asistencia = 1, COUNT(t2.asistencia),COUNT(t2.asistencia))as resultado
+                FROM
+                    alumnos t1
+                INNER JOIN
+                    iglesia_est t2 on t1.id_alumno=t2.id_alumno
+                INNER JOIN
+                    facultad t3 on t1.id_facultad=t3.id_facultad
+                WHERE
+                    t1.id_actividad = 1
+                GROUP BY
+                    t2.asistencia";
+
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+
+    }
+
+    
+    function readAsisCFE() {
+                // select all query
+                $query = "SELECT
+                            IF(t2.asistencia = 1, COUNT(t2.asistencia),COUNT(t2.asistencia))as resultado
+                FROM
+                    alumnos t1
+                INNER JOIN
+                    iglesia_est t2 on t1.id_alumno=t2.id_alumno
+                INNER JOIN
+                    facultad t3 on t1.id_facultad=t3.id_facultad
+                WHERE
+                    t1.id_actividad = 4
+                GROUP BY
+                    t2.asistencia";
+
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+
     }
 
     // used when filling up the update product form

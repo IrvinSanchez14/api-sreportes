@@ -53,6 +53,29 @@ class Alumnos{
         return $stmt;
     }
 
+    function readChar(){
+ 
+        // select all query
+        $query = "SELECT
+                    t3.nombre_fac, COUNT(t1.id_facultad) as numero
+        FROM
+            alumnos t1
+        INNER JOIN
+            facultad t3 on t1.id_facultad=t3.id_facultad
+        WHERE
+            t1.id_actividad = 2
+        GROUP BY
+            t1.id_facultad";
+ 
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+ 
+        // execute query
+        $stmt->execute();
+ 
+        return $stmt;
+    }
+
     // create product
     function create(){
  

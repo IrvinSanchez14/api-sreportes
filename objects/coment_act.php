@@ -49,6 +49,8 @@ class coment_act{
             coment_act t2 on t1.id_alumno=t2.id_alumno
         INNER JOIN
             facultad t3 on t1.id_facultad=t3.id_facultad
+        WHERE
+            t1.id_actividad = 1
         GROUP BY
             t1.id_facultad";
  
