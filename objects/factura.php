@@ -1,20 +1,17 @@
 <?php
-class enc_sat{
+class factura{
  
     // database connection and table name
     private $conn;
-    private $table_name = "enc_sat";
+    private $table_name = "factura";
  
     // object properties
-    public $id;
-    public $num_res1;
-    public $num_res2;
-    public $num_res3;
-    public $num_res4;
-    public $num_res5;
-    public $num_res6;
-    public $num_res7;
+    public $numero_factura;
     public $id_alumno;
+    /*
+    public $category_id;
+    public $category_name;
+    public $created;*/
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -25,12 +22,18 @@ class enc_sat{
     function read(){
  
         // select all query
-        $query = "SELECT
-               p. id_almex as id, p.email as email, p.telefono as telefono, p.facebook as facebook, p.id_alumno as ida
-            FROM
-                " . $this->table_name . " p
-            ORDER BY
-                p.id_almex DESC";
+        $query = "SELECT 
+                    t1.id_alumno as id, t1.nombre_alumno, t1.cif, t2.numero_factura, t3.nombre_fac
+                FROM
+                    alumnos t1
+                INNER JOIN
+                    factura t2 on t1.id_alumno=t2.id_alumno
+                INNER JOIN
+                    facultad t3 on t1.id_facultad=t3.id_facultad
+                GROUP BY
+                    t1.id_alumno
+                ORDER BY
+                    t1.id_alumno DESC";
  
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -41,24 +44,6 @@ class enc_sat{
         return $stmt;
     }
 
-    function tableEnc() {
-
-        $query = "SELECT t1.id_alumno as id, t1.nombre_alumno, t1.cif, t1.fecha, t3.nombre_fac, t2.num_res1, t2.num_res2, t2.num_res3, t2.num_res4, t2.num_res5, t2.num_res6, t2.num_res7
-        FROM alumnos t1
-            inner join  " . $this->table_name . " t2 on t1.id_alumno=t2.id_alumno
-            LEFT JOIN facultad t3 on t1.id_facultad=t3.id_facultad
-                    group by t1.id_alumno
-                order by t1.id_alumno ASC";
-
-        // prepare query statement
-        $stmt = $this->conn->prepare($query);
-
-        // execute query
-         $stmt->execute();
-
-        return $stmt;
-    }
-
     // create product
     function create(){
  
@@ -66,28 +51,19 @@ class enc_sat{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                num_res1=:num_res1, num_res2=:num_res2, num_res3=:num_res3, num_res4=:num_res4, num_res5=:num_res5, num_res6=:num_res6, num_res7=:num_res7";
+                numero_factura=:numero_factura, id_alumno=:id_alumno";
  
         // prepare query
         $stmt = $this->conn->prepare($query);
  
         // sanitize
-        $this->num_res1=htmlspecialchars(strip_tags($this->num_res1));
-        $this->num_res2=htmlspecialchars(strip_tags($this->num_res2));
-        $this->num_res3=htmlspecialchars(strip_tags($this->num_res3));
-        $this->num_res4=htmlspecialchars(strip_tags($this->num_res4));
-        $this->num_res5=htmlspecialchars(strip_tags($this->num_res5));
-        $this->num_res6=htmlspecialchars(strip_tags($this->num_res6));
-        $this->num_res7=htmlspecialchars(strip_tags($this->num_res7));
+        $this->numero_factura=htmlspecialchars(strip_tags($this->numero_factura));
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
  
         // bind values
-        $stmt->bindParam(":num_res1", $this->num_res1);
-        $stmt->bindParam(":num_res2", $this->num_res2);
-        $stmt->bindParam(":num_res3", $this->num_res3);
-        $stmt->bindParam(":num_res4", $this->num_res4);
-        $stmt->bindParam(":num_res5", $this->num_res5);
-        $stmt->bindParam(":num_res6", $this->num_res6);
-        $stmt->bindParam(":num_res7", $this->num_res7);
+        $stmt->bindParam(":numero_factura", $this->numero_factura);
+        $stmt->bindParam(":id_alumno", $this->id_alumno);
  
         // execute query
         if($stmt->execute()){

@@ -9,38 +9,32 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
 
-// instantiate coment object
-include_once '../objects/enc_sat.php';
+// instantiate iglesia object
+include_once '../objects/factura.php';
 
 $database = new Database();
 $db = $database->getConnection();
  //new comment 
-$coment = new enc_sat($db);
+$iglesia = new factura($db);
 
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
+// set iglesia property values
+$iglesia->numero_factura = $data->numero_factura;
+$iglesia->id_alumno = $data->id_alumno;
 
-// set coment property values
-$coment->num_res1 = $data->num_res1;
-$coment->num_res2 = $data->num_res2;
-$coment->num_res3 = $data->num_res3;
-$coment->num_res4 = $data->num_res4;
-$coment->num_res5 = $data->num_res5;
-$coment->num_res6 = $data->num_res6;
-$coment->num_res7 = $data->num_res7;
-
-// create the coment
-if($coment->create()){
+// create the iglesia
+if($iglesia->create()){
     echo '{';
-        echo '"message": "coment was created."';
+        echo '"message": "iglesia was created."';
     echo '}';
 }
 
-// if unable to create the coment, tell the user
+// if unable to create the iglesia, tell the user
 else{
     echo '{';
-        echo '"message": "Unable to create coment."';
+        echo '"message": "Unable to create iglesia."';
     echo '}';
 }
 ?>
