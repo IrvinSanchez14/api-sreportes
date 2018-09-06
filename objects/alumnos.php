@@ -7,6 +7,7 @@ class Alumnos{
  
     // object properties
     public $id;
+    public $id_alumno;
     public $nombre_alumno;
     public $cif;
     public $id_facultad;
@@ -264,6 +265,38 @@ public function count(){
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
  
     return $row['total_rows'];
+}
+
+function editDataOne(){
+ 
+    // select all query
+    $query = "SELECT t1.id_alumno,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono
+    FROM alumnos t1
+    INNER JOIN alum_extra t2 on t1.id_alumno=t2.id_alumno
+    INNER JOIN coment_act t3 on t1.id_alumno=t3.id_alumno
+    INNER JOIN iglesia_est t4 on t1.id_alumno= t4.id_alumno
+    WHERE t1.id_alumno = ?
+        GROUP BY t1.id_alumno
+        ORDER BY t1.id_alumno ASC";
+ 
+    // prepare query statement
+    $stmt = $this->conn->prepare( $query );
+ 
+    // bind id of product to be updated
+    $stmt->bindParam(1, $this->id_alumno);
+ 
+    // execute query
+    $stmt->execute();
+ 
+    // get retrieved row
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+    // set values to object properties
+    $this->id_alumno = $row['id_alumno'];
+    $this->cif = $row['cif'];
+    $this->fecha = $row['fecha'];
+    $this->email = $row['email'];
+    $this->telefono = $row['telefono'];
 }
 
 }
