@@ -35,7 +35,6 @@ if($num>0){
         extract($row);
  
         $alumno_item=array(
-            "id_alumno" => $id,
             "num_res1" => $num_res1,
             "num_res2" => $num_res2
 

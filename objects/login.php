@@ -6,6 +6,7 @@ class Login{
     private $table_name = "login";
  
     // object properties
+    public $id_login;
     public $username;
     public $pass;
  
@@ -65,79 +66,6 @@ class Login{
             return false;
         }
     }
-
-    function readAsisbv() {
-                // select all query
-                $query = "SELECT
-                            IF(t2.asistencia = 1, COUNT(t2.asistencia),COUNT(t2.asistencia))as resultado
-                FROM
-                    alumnos t1
-                INNER JOIN
-                    iglesia_est t2 on t1.id_alumno=t2.id_alumno
-                INNER JOIN
-                    facultad t3 on t1.id_facultad=t3.id_facultad
-                WHERE
-                    t1.id_actividad = 1
-                GROUP BY
-                    t2.asistencia";
-
-    // prepare query statement
-    $stmt = $this->conn->prepare($query);
-
-    // execute query
-    $stmt->execute();
-
-    return $stmt;
-
-    }
-
-    
-    function readAsisCFE() {
-                // select all query
-                $query = "SELECT
-                            IF(t2.asistencia = 1, COUNT(t2.asistencia),COUNT(t2.asistencia))as resultado
-                FROM
-                    alumnos t1
-                INNER JOIN
-                    iglesia_est t2 on t1.id_alumno=t2.id_alumno
-                INNER JOIN
-                    facultad t3 on t1.id_facultad=t3.id_facultad
-                WHERE
-                    t1.id_actividad = 4
-                GROUP BY
-                    t2.asistencia";
-
-    // prepare query statement
-    $stmt = $this->conn->prepare($query);
-
-    // execute query
-    $stmt->execute();
-
-    return $stmt;
-
-    }
-
-    // used when filling up the update product form
-function readLastId(){
- 
-    // query to read single record
-    $query = "SELECT
-                id_alumno as id, p.nombre_alumno as nombre_alumno
-            FROM
-                " . $this->table_name . " p
-            ORDER BY id_alumno 
-
-            DESC LIMIT 1";
- 
-    // prepare query statement
-    $stmt = $this->conn->prepare( $query );
- 
- 
-    // execute query
-    $stmt->execute();
-
-    return $stmt;
-}
 
 // update the product
 function update(){
@@ -203,37 +131,37 @@ function delete(){
 }
 
 // search products
-function search($keywords){
+function search(){
  
     // select all query
     $query = "SELECT
-                c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
-            FROM
-                " . $this->table_name . " p
-                LEFT JOIN
-                    categories c
-                        ON p.category_id = c.id
-            WHERE
-                p.name LIKE ? OR p.description LIKE ? OR c.name LIKE ?
-            ORDER BY
-                p.created DESC";
+    p.id_login, p.username, p.pass, p.estado, p.fecha, p.id_rol
+    FROM
+    " . $this->table_name . " p
+    WHERE
+        p.username LIKE ? AND p.pass LIKE ? 
+    ORDER BY
+        p.username DESC";
  
     // prepare query statement
-    $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare( $query );
  
-    // sanitize
-    $keywords=htmlspecialchars(strip_tags($keywords));
-    $keywords = "%{$keywords}%";
- 
-    // bind
-    $stmt->bindParam(1, $keywords);
-    $stmt->bindParam(2, $keywords);
-    $stmt->bindParam(3, $keywords);
+    // bind id of product to be updated
+    $stmt->bindParam(1, $this->username);
+    $stmt->bindParam(2, $this->pass);
  
     // execute query
     $stmt->execute();
  
-    return $stmt;
+    // get retrieved row
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+    // set values to object properties
+    $this->id_login = $row['id_login'];
+    $this->username = $row['username'];
+    $this->pass = $row['pass'];
+    $this->estado = $row['estado'];
+    $this->id_rol = $row['id_rol'];
 }
 
 // read products with pagination

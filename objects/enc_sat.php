@@ -43,12 +43,10 @@ class enc_sat{
 
     function tableEnc() {
 
-        $query = "SELECT t1.id_alumno as id, t1.nombre_alumno, t1.cif, t1.fecha, t3.nombre_fac, t2.num_res1, t2.num_res2, t2.num_res3, t2.num_res4, t2.num_res5, t2.num_res6, t2.num_res7
-        FROM alumnos t1
-            inner join  " . $this->table_name . " t2 on t1.id_alumno=t2.id_alumno
-            LEFT JOIN facultad t3 on t1.id_facultad=t3.id_facultad
-                    group by t1.id_alumno
-                order by t1.id_alumno ASC";
+        $query = "SELECT t1.num_res1, t1.num_res2, t1.num_res3, t1.num_res4, t1.num_res5, t1.num_res6, t1.num_res7
+        FROM enc_sat t1
+                    group by t1.id_encu
+                order by t1.id_encu ASC";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
