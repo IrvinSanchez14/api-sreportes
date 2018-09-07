@@ -136,35 +136,50 @@ function update(){
  
     // update query
     $query = "UPDATE
-                " . $this->table_name . "
+                alumnos t1, alum_extra t2, iglesia_est t4, coment_act t3
             SET
-                name = :name,
-                price = :price,
-                description = :description,
-                category_id = :category_id
+                t1.nombre_alumno = :nombre_alumno,
+                t1.cif = :cif,
+                t2.email = :email,
+                t2.telefono = :telefono,
+                t2.facebook = :facebook,
+                t3.expectativas = :expectativas,
+                t3.ideas = :ideas,
+                t4.asistencia = :asistencia,
+                t4.nombre_iglesia = :nombre_iglesia,
+                t4.anios_es = :anios_es
             WHERE
-                id = :id";
-
-                update alumnos as t1,alum_extra as t2, iglesia_est t4, coment_act t3 set  t1.nombre_alumno = 'irv', t1.cif = '1234', t2.email = 'i@',
- t2.telefono = '48563', t2.facebook = 'asdde', t3.expectativas = 'asdvx', t3.ideas = 'addccvv', t4.asistencia = 1, t4.nombre_iglesia = 'jaaa', t4.anios_es = 5 
- where t1.id_alumno=76
+                t1.id_alumno=t2.id_alumno AND t1.id_alumno=t3.id_alumno AND 
+                t1.id_alumno=t4.id_alumno AND t1.id_alumno = :id_alumno";
  
     // prepare query statement
     $stmt = $this->conn->prepare($query);
  
     // sanitize
-    $this->name=htmlspecialchars(strip_tags($this->name));
-    $this->price=htmlspecialchars(strip_tags($this->price));
-    $this->description=htmlspecialchars(strip_tags($this->description));
-    $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-    $this->id=htmlspecialchars(strip_tags($this->id));
+    $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
+    $this->cif=htmlspecialchars(strip_tags($this->cif));
+    $this->email=htmlspecialchars(strip_tags($this->email));
+    $this->telefono=htmlspecialchars(strip_tags($this->telefono));
+    $this->facebook=htmlspecialchars(strip_tags($this->facebook));
+    $this->expectativas=htmlspecialchars(strip_tags($this->expectativas));
+    $this->ideas=htmlspecialchars(strip_tags($this->ideas));
+    $this->asistencia=htmlspecialchars(strip_tags($this->asistencia));
+    $this->nombre_iglesia=htmlspecialchars(strip_tags($this->nombre_iglesia));
+    $this->anios_es=htmlspecialchars(strip_tags($this->anios_es));
+    $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
  
     // bind new values
-    $stmt->bindParam(':name', $this->name);
-    $stmt->bindParam(':price', $this->price);
-    $stmt->bindParam(':description', $this->description);
-    $stmt->bindParam(':category_id', $this->category_id);
-    $stmt->bindParam(':id', $this->id);
+    $stmt->bindParam(':nombre_alumno', $this->nombre_alumno);
+    $stmt->bindParam(':cif', $this->cif);
+    $stmt->bindParam(':email', $this->email);
+    $stmt->bindParam(':telefono', $this->telefono);
+    $stmt->bindParam(':facebook', $this->facebook);
+    $stmt->bindParam(':expectativas', $this->expectativas);
+    $stmt->bindParam(':ideas', $this->ideas);
+    $stmt->bindParam(':asistencia', $this->asistencia);
+    $stmt->bindParam(':nombre_iglesia', $this->nombre_iglesia);
+    $stmt->bindParam(':anios_es', $this->anios_es);
+    $stmt->bindParam(':id_alumno', $this->id_alumno);
  
     // execute the query
     if($stmt->execute()){
