@@ -26,7 +26,19 @@ $product->editDataOne();
  
 // create array
 $product_arr = array(
-    "id_alumno" =>  $product->id_alumno
+    "id_alumno" =>  $product->id_alumno,
+    "nombre_alumno" =>  $product->nombre_alumno,
+    "cif" =>  $product->cif,
+    "fecha" =>  $product->fecha,
+    "email" =>  $product->email,
+    "telefono" =>  $product->telefono,
+    "facebook" =>  $product->facebook,
+    "expectativas" =>  $product->expectativas,
+    "ideas" =>  $product->ideas,
+    "asistencia" =>  $product->asistencia,
+    "nombre_iglesia" =>  $product->nombre_iglesia,
+    "anios_es" =>  $product->anios_es,
+    "id_facultad" =>  $product->id_facultad,
  
 );
 // make it json format

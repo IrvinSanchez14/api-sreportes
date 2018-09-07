@@ -1,4 +1,4 @@
-<?php
+<?php 
 class Alumnos{
  
     // database connection and table name
@@ -144,6 +144,10 @@ function update(){
                 category_id = :category_id
             WHERE
                 id = :id";
+
+                update alumnos as t1,alum_extra as t2, iglesia_est t4, coment_act t3 set  t1.nombre_alumno = 'irv', t1.cif = '1234', t2.email = 'i@',
+ t2.telefono = '48563', t2.facebook = 'asdde', t3.expectativas = 'asdvx', t3.ideas = 'addccvv', t4.asistencia = 1, t4.nombre_iglesia = 'jaaa', t4.anios_es = 5 
+ where t1.id_alumno=76
  
     // prepare query statement
     $stmt = $this->conn->prepare($query);
@@ -270,7 +274,7 @@ public function count(){
 function editDataOne(){
  
     // select all query
-    $query = "SELECT t1.id_alumno,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono
+    $query = "SELECT t1.id_alumno,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono, t2.facebook, t3.expectativas, t3.ideas, t4.asistencia, t4.nombre_iglesia, t4.anios_es, t1.id_facultad
     FROM alumnos t1
     INNER JOIN alum_extra t2 on t1.id_alumno=t2.id_alumno
     INNER JOIN coment_act t3 on t1.id_alumno=t3.id_alumno
@@ -293,10 +297,18 @@ function editDataOne(){
  
     // set values to object properties
     $this->id_alumno = $row['id_alumno'];
+    $this->nombre_alumno = $row['nombre_alumno'];
     $this->cif = $row['cif'];
     $this->fecha = $row['fecha'];
     $this->email = $row['email'];
     $this->telefono = $row['telefono'];
+    $this->facebook = $row['facebook'];
+    $this->expectativas = $row['expectativas'];
+    $this->ideas = $row['ideas'];
+    $this->asistencia = $row['asistencia'];
+    $this->nombre_iglesia = $row['nombre_iglesia'];
+    $this->anios_es = $row['anios_es'];
+    $this->id_facultad = $row['id_facultad'];
 }
 
 }
