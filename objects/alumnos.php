@@ -39,13 +39,22 @@ class Alumnos{
     }
 
     function bEspecial() {
-        $query = "  SELECT t1.id_alumno as id,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono, t2.facebook, t3.expectativas, t3.ideas, t4.asistencia, t4.nombre_iglesia, t4.anios_es
-            FROM " . $this ->table_name . " t1
-            INNER JOIN alum_extra t2 on t1.id_alumno=t2.id_alumno
-            INNER JOIN coment_act t3 on t1.id_alumno=t3.id_alumno
-            INNER JOIN iglesia_est t4 on t1.id_alumno= t4.id_alumno
-                GROUP BY t1.id_alumno
-                ORDER BY t1.id_alumno ASC";
+        $query = "  SELECT 
+                        t1.id_alumno as id,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono, t2.facebook, t3.expectativas, t3.ideas, t4.asistencia, t4.nombre_iglesia, t4.anios_es
+            FROM 
+                " . $this ->table_name . " t1
+            INNER JOIN 
+                alum_extra t2 on t1.id_alumno=t2.id_alumno
+            INNER JOIN 
+                coment_act t3 on t1.id_alumno=t3.id_alumno
+            INNER JOIN 
+                iglesia_est t4 on t1.id_alumno= t4.id_alumno
+            WHERE
+                t1.estado = 0
+            GROUP BY 
+                t1.id_alumno
+            ORDER BY 
+                t1.id_alumno ASC";
 
         $stmt = $this->conn->prepare($query);
 
@@ -325,5 +334,31 @@ function editDataOne(){
     $this->anios_es = $row['anios_es'];
     $this->id_facultad = $row['id_facultad'];
 }
+
+    function deleteId () {
+
+        $query = "UPDATE
+                alumnos t1, alum_extra t2, iglesia_est t4, coment_act t3
+            SET
+                t1.estado = 1
+            WHERE
+                t1.id_alumno=t2.id_alumno AND t1.id_alumno=t3.id_alumno AND 
+                t1.id_alumno=t4.id_alumno AND t1.id_alumno = :id_alumno";
+ 
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
+        $stmt->bindParam(':id_alumno', $this->id_alumno);
+ 
+        // execute the query
+        if ($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 
 }
