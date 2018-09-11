@@ -30,6 +30,8 @@ class factura{
                     factura t2 on t1.id_alumno=t2.id_alumno
                 INNER JOIN
                     facultad t3 on t1.id_facultad=t3.id_facultad
+                WHERE
+                    t1.estado = 0 and
                 GROUP BY
                     t1.id_alumno
                 ORDER BY

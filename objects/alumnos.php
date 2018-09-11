@@ -71,9 +71,11 @@ class Alumnos{
         FROM
             alumnos t1
         INNER JOIN
+            factura t2 on t1.id_alumno=t2.id_alumno
+        INNER JOIN
             facultad t3 on t1.id_facultad=t3.id_facultad
         WHERE
-            t1.id_actividad = 2
+            t1.id_actividad = 2 AND t1.estado=0
         GROUP BY
             t1.id_facultad";
  
@@ -419,6 +421,31 @@ function editAmazing () {
             WHERE
                 t1.id_alumno=t2.id_alumno AND t1.id_alumno=t3.id_alumno AND 
                 t1.id_alumno=t4.id_alumno AND t1.id_alumno = :id_alumno";
+ 
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
+        $stmt->bindParam(':id_alumno', $this->id_alumno);
+ 
+        // execute the query
+        if ($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    function deleteFactura () {
+
+        $query = "UPDATE
+                alumnos t1, factura t2
+            SET
+                t1.estado = 1
+            WHERE
+                t1.id_alumno=t2.id_alumno AND t1.id_alumno = :id_alumno";
  
         // prepare query statement
         $stmt = $this->conn->prepare($query);
