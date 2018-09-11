@@ -23,7 +23,7 @@ class factura{
  
         // select all query
         $query = "SELECT 
-                    t1.id_alumno as id, t1.nombre_alumno, t1.cif, t2.numero_factura, t3.nombre_fac
+                    t1.id_alumno, t1.nombre_alumno, t1.cif, t2.numero_factura, t3.nombre_fac
                 FROM
                     alumnos t1
                 INNER JOIN

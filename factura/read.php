@@ -35,7 +35,7 @@ if($num>0){
         extract($row);
  
         $alumno_item=array(
-            "id" => $id,
+            "id_alumno" => $id_alumno,
             "nombre_alumno" => $nombre_alumno,
             "cif" => $cif,
             "numero_factura" => $numero_factura,

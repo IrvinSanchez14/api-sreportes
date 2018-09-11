@@ -198,6 +198,45 @@ function update(){
     }
 }
 
+function updateFactura () {
+
+     // update query
+     $query = " UPDATE
+                    alumnos t1, factura t2
+                SET
+                    t1.nombre_alumno = :nombre_alumno,
+                    t1.cif = :cif,
+                    t1.id_facultad = :id_facultad,
+                    t2.numero_factura = :numero_factura
+                WHERE
+                t1.id_alumno=t2.id_alumno AND t1.id_alumno = :id_alumno";
+
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    // sanitize
+    $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
+    $this->cif=htmlspecialchars(strip_tags($this->cif));
+    $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
+    $this->numero_factura=htmlspecialchars(strip_tags($this->numero_factura));
+    $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
+    // bind new values
+    $stmt->bindParam(':nombre_alumno', $this->nombre_alumno);
+    $stmt->bindParam(':cif', $this->cif);
+    $stmt->bindParam(':id_facultad', $this->id_facultad);
+    $stmt->bindParam(':numero_factura', $this->numero_factura);
+    $stmt->bindParam(':id_alumno', $this->id_alumno);
+
+    // execute the query
+    if  ($stmt->execute())  {
+        return true;    
+    } else    {
+        return false;
+    }
+
+}
+
 // delete the product
 function delete(){
  
@@ -333,6 +372,42 @@ function editDataOne(){
     $this->nombre_iglesia = $row['nombre_iglesia'];
     $this->anios_es = $row['anios_es'];
     $this->id_facultad = $row['id_facultad'];
+}
+
+function editAmazing () {
+
+    $query = "  SELECT 
+                    t1.id_alumno,  t1.nombre_alumno, t1.cif, t1.id_facultad, t2.numero_factura
+                FROM 
+                    alumnos t1
+                INNER JOIN 
+                    factura t2 on t1.id_alumno=t2.id_alumno
+                WHERE 
+                    t1.id_alumno = ?
+                GROUP BY 
+                    t1.id_alumno
+                ORDER BY 
+                    t1.id_alumno ASC";
+ 
+    // prepare query statement
+    $stmt = $this->conn->prepare( $query );
+ 
+    // bind id of product to be updated
+    $stmt->bindParam(1, $this->id_alumno);
+ 
+    // execute query
+    $stmt->execute();
+ 
+    // get retrieved row
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+    // set values to object properties
+    $this->id_alumno = $row['id_alumno'];
+    $this->nombre_alumno = $row['nombre_alumno'];
+    $this->cif = $row['cif'];
+    $this->id_facultad = $row['id_facultad'];
+    $this->numero_factura = $row['numero_factura'];
+
 }
 
     function deleteId () {
