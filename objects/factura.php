@@ -31,7 +31,7 @@ class factura{
                 INNER JOIN
                     facultad t3 on t1.id_facultad=t3.id_facultad
                 WHERE
-                    t1.estado = 0 and
+                    t1.estado = 0 and t1.id_actividad=2
                 GROUP BY
                     t1.id_alumno
                 ORDER BY
