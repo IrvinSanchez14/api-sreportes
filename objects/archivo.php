@@ -25,6 +25,8 @@ class archivos{
                     t1.id_archivo as id, t1.nombre, ROUND(SUM(t1.size / 1048576),2) as size, date(t1.fecha) as fecha
         FROM 
             archivos t1
+        WHERE
+            t1.estado = 0
         GROUP BY 
             t1.id_archivo";
  
@@ -223,6 +225,31 @@ public function count(){
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
  
     return $row['total_rows'];
+}
+
+function deleteArchivo() {
+
+    $query = "UPDATE
+            archivos
+        SET
+            estado = 1
+        WHERE
+            id_archivo = :id_archivo";
+
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    $this->id_archivo=htmlspecialchars(strip_tags($this->id_archivo));
+
+    $stmt->bindParam(':id_archivo', $this->id_archivo);
+
+    // execute the query
+    if ($stmt->execute()){
+        return true;
+    }else{
+        return false;
+    }
+
 }
 
 }
