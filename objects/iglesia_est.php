@@ -72,7 +72,7 @@ class iglesia_est{
     function readAsisbv() {
                 // select all query
                 $query = "SELECT
-                            IF(t2.asistencia = 1, COUNT(t2.asistencia),COUNT(t2.asistencia))as resultado
+                            IF(t2.asistencia = 0, COUNT(t2.asistencia),COUNT(t2.asistencia))as resultado
                 FROM
                     alumnos t1
                 INNER JOIN

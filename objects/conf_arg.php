@@ -66,7 +66,7 @@ class conf_arg{
         $query = "SELECT
             t1.id_alumno as id, t1.nombre_alumno, t1.cif, t5.valor, t2.email, t2.telefono,
             t6.nombre_fac, t2.facebook, t3.benf_adq, t4.asistencia, t4.nombre_iglesia, 
-            t3.opn_con, t3.desc_est
+            t3.opn_con, t3.desc_est,t1.id_facultad
         FROM 
             alumnos t1
         INNER JOIN 
@@ -283,5 +283,59 @@ public function count(){
  
     return $row['total_rows'];
 }
+
+    function readId() {
+ 
+            // select all query
+            $query = "SELECT
+            t1.id_alumno, t1.nombre_alumno, t1.cif, t5.valor, t2.email, t2.telefono,
+            t6.nombre_fac, t2.facebook, t3.benf_adq, t4.asistencia, t4.nombre_iglesia, 
+            t3.opn_con, t3.desc_est,t1.id_facultad
+        FROM 
+            alumnos t1
+        INNER JOIN 
+            alum_extra t2 on t1.id_alumno=t2.id_alumno
+        INNER JOIN 
+            conf_arg  t3 on t1.id_alumno=t3.id_alumno
+        INNER JOIN 
+            iglesia_est t4 on t1.id_alumno=t4.id_alumno
+        INNER JOIN 
+            ciclo t5 on t1.id_alumno=t5.id_alumno
+        INNER JOIN 
+            facultad t6 on t1.id_facultad=t6.id_facultad
+        WHERE 
+            t1.estado=0 AND t1.id_alumno = ?
+        GROUP BY 
+            t1.id_alumno
+        ORDER BY 
+            t1.id_alumno ASC";
+         
+            // prepare query statement
+            $stmt = $this->conn->prepare( $query );
+         
+            // bind id of product to be updated
+            $stmt->bindParam(1, $this->id_alumno);
+         
+            // execute query
+            $stmt->execute();
+         
+            // get retrieved row
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+         
+            // set values to object properties
+            $this->id_alumno = $row['id_alumno'];
+            $this->nombre_alumno = $row['nombre_alumno'];
+            $this->cif = $row['cif'];
+            $this->email = $row['email'];
+            $this->telefono = $row['telefono'];
+            $this->facebook = $row['facebook'];
+            $this->benf_adq = $row['benf_adq'];
+            $this->asistencia = $row['asistencia'];
+            $this->nombre_iglesia = $row['nombre_iglesia'];
+            $this->id_facultad = $row['id_facultad'];
+            $this->opn_con = $row['opn_con'];
+            $this->desc_est = $row['desc_est'];
+
+    }
 
 }
