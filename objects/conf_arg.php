@@ -153,31 +153,56 @@ function update(){
  
     // update query
     $query = "UPDATE
-                " . $this->table_name . "
-            SET
-                name = :name,
-                price = :price,
-                description = :description,
-                category_id = :category_id
-            WHERE
-                id = :id";
- 
+    alumnos t1, alum_extra t2, conf_arg t3, iglesia_est t4, ciclo t5
+SET
+    t1.nombre_alumno = :nombre_alumno,
+    t1.cif = :cif,
+    t1.id_facultad = :id_facultad,
+    t2.email = :email,
+    t2.telefono = :telefono,
+    t2.facebook = :facebook,
+    t3.benf_adq = :benf_adq,
+    t3.opn_con = :opn_con,
+    t3.desc_est = :desc_est,
+    t4.asistencia = :asistencia,
+    t4.nombre_iglesia = :nombre_iglesia,
+    t5.valor = :valor
+WHERE
+t1.id_alumno=t2.id_alumno AND t1.id_alumno=t3.id_alumno
+     AND t1.id_alumno=t4.id_alumno AND t1.id_alumno=t5.id_alumno AND t1.id_alumno = :id_alumno";
+                        
     // prepare query statement
     $stmt = $this->conn->prepare($query);
  
     // sanitize
-    $this->name=htmlspecialchars(strip_tags($this->name));
-    $this->price=htmlspecialchars(strip_tags($this->price));
-    $this->description=htmlspecialchars(strip_tags($this->description));
-    $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-    $this->id=htmlspecialchars(strip_tags($this->id));
+    $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
+    $this->cif=htmlspecialchars(strip_tags($this->cif));
+    $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
+    $this->email=htmlspecialchars(strip_tags($this->email));
+    $this->telefono=htmlspecialchars(strip_tags($this->telefono));
+    $this->facebook=htmlspecialchars(strip_tags($this->facebook));
+    $this->benf_adq=htmlspecialchars(strip_tags($this->benf_adq));
+    $this->opn_con=htmlspecialchars(strip_tags($this->opn_con));
+    $this->desc_est=htmlspecialchars(strip_tags($this->desc_est));
+    $this->asistencia=htmlspecialchars(strip_tags($this->asistencia));
+    $this->nombre_iglesia=htmlspecialchars(strip_tags($this->nombre_iglesia));
+    $this->valor=htmlspecialchars(strip_tags($this->valor));
+    $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
  
     // bind new values
-    $stmt->bindParam(':name', $this->name);
-    $stmt->bindParam(':price', $this->price);
-    $stmt->bindParam(':description', $this->description);
-    $stmt->bindParam(':category_id', $this->category_id);
-    $stmt->bindParam(':id', $this->id);
+    $stmt->bindParam(':nombre_alumno', $this->nombre_alumno);
+    $stmt->bindParam(':cif', $this->cif);
+    $stmt->bindParam(':id_facultad', $this->id_facultad);
+    $stmt->bindParam(':email', $this->email);
+    $stmt->bindParam(':telefono', $this->telefono);
+    $stmt->bindParam(':facebook', $this->facebook);
+    $stmt->bindParam(':benf_adq', $this->benf_adq);
+    $stmt->bindParam(':opn_con', $this->opn_con);
+    $stmt->bindParam(':desc_est', $this->desc_est);
+    $stmt->bindParam(':asistencia', $this->asistencia);
+    $stmt->bindParam(':nombre_iglesia', $this->nombre_iglesia);
+    $stmt->bindParam(':valor', $this->valor);
+    $stmt->bindParam(':id_alumno', $this->id_alumno);
  
     // execute the query
     if($stmt->execute()){
@@ -338,4 +363,29 @@ public function count(){
 
     }
 
+    
+    function deleteid () {
+
+        $query = "UPDATE
+                alumnos t1
+            SET
+                t1.estado = 1
+            WHERE
+                t1.id_alumno = :id_alumno";
+ 
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
+        $stmt->bindParam(':id_alumno', $this->id_alumno);
+ 
+        // execute the query
+        if ($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 }
