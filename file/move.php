@@ -1,13 +1,26 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Credentials: true");
+header('Content-Type: application/json');
     
-    if ( 0 < $_FILES['file']['error'] ) {
-        echo 'Error: ' . $_FILES['file']['error'] . '<br>';
-    }
-    else {
-        move_uploaded_file($_FILES['file']['tmp_name'], 'upload/' . $_FILES['file']['name']);
-        echo $_FILES['file'];
-    }
+// En versiones de PHP anteriores a la 4.1.0, debería utilizarse $HTTP_POST_FILES en lugar
+// de $_FILES.
+
+$dir_subida = 'upload/';
+$fichero_subido = $dir_subida . basename($_FILES['file']['name']);
+
+echo '<pre>';
+if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
+    echo "El fichero es válido y se subió con éxito.\n";
+} else {
+    echo "¡Posible ataque de subida de ficheros!\n";
+}
+
+echo 'Más información de depuración:';
+print_r($_FILES);
+
+print "</pre>";
 
 ?>

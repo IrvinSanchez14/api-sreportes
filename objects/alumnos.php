@@ -463,4 +463,27 @@ function editAmazing () {
 
     }
 
+    function deleteNice () {
+        $query = "UPDATE
+                        alumnos t1
+                    SET
+                        t1.estado = 1
+                    WHERE
+                        t1.id_alumno = :id_alumno";
+
+                // prepare query statement
+                $stmt = $this->conn->prepare($query);
+
+                $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
+                $stmt->bindParam(':id_alumno', $this->id_alumno);
+
+                // execute the query
+                if ($stmt->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+    }
+
 }

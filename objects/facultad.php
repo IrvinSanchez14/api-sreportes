@@ -270,4 +270,90 @@ public function count(){
     return $row['total_rows'];
 }
 
+function tablaNice () {
+    // select all query
+    $query = "  SELECT 
+	                t1.id_alumno, t1.nombre_alumno, t1.cif, t2.nombre_fac, if(t1.estado = 1, 'Inactivo', 'Activo')as estado
+	            FROM 
+		            alumnos t1
+	            INNER JOIN 
+		            facultad t2 on t1.id_facultad = t2.id_facultad 
+	            WHERE
+		            t1.id_actividad = 3
+	            ORDER BY
+		            t1.id_alumno DESC";
+
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+}
+
+    function updateId () {
+        $query = "  SELECT 
+                        t1.id_alumno,  t1.nombre_alumno, t1.cif, t1.id_facultad
+                    FROM 
+                        alumnos t1
+                    WHERE 
+                        t1.id_alumno = ? AND t1.id_actividad = 3
+                    GROUP BY 
+                        t1.id_alumno";
+
+                // prepare query statement
+                $stmt = $this->conn->prepare( $query );
+
+                // bind id of product to be updated
+                $stmt->bindParam(1, $this->id_alumno);
+
+                // execute query
+                $stmt->execute();
+
+                // get retrieved row
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // set values to object properties
+                $this->id_alumno = $row['id_alumno'];
+                $this->nombre_alumno = $row['nombre_alumno'];
+                $this->cif = $row['cif'];
+                $this->id_facultad = $row['id_facultad'];
+    }
+
+    function saveUpdate () {
+             // update query
+     $query = " UPDATE
+                    alumnos t1
+                SET
+                    t1.nombre_alumno = :nombre_alumno,
+                    t1.cif = :cif,
+                    t1.id_facultad = :id_facultad
+                WHERE
+                    t1.id_alumno = :id_alumno";
+
+                // prepare query statement
+                $stmt = $this->conn->prepare($query);
+
+                // sanitize
+                $this->nombre_alumno=htmlspecialchars(strip_tags($this->nombre_alumno));
+                $this->cif=htmlspecialchars(strip_tags($this->cif));
+                $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
+                $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+
+                // bind new values
+                $stmt->bindParam(':nombre_alumno', $this->nombre_alumno);
+                $stmt->bindParam(':cif', $this->cif);
+                $stmt->bindParam(':id_facultad', $this->id_facultad);
+                $stmt->bindParam(':id_alumno', $this->id_alumno);
+
+                // execute the query
+                if  ($stmt->execute())  {
+                return true;    
+                } else    {
+                return false;
+                }
+                    }
+
+
 }
