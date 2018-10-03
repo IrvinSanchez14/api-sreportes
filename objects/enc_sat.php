@@ -43,7 +43,7 @@ class enc_sat{
 
     function tableEnc() {
 
-        $query = "SELECT t1.num_res1, t1.num_res2, t1.num_res3, t1.num_res4, t1.num_res5, t1.num_res6, t1.num_res7
+        $query = "SELECT t1.id_encu, t1.num_res1, t1.num_res2, t1.num_res3, t1.num_res4, t1.num_res5, t1.num_res6, t1.num_res7
         FROM enc_sat t1
                     group by t1.id_encu
                 order by t1.id_encu ASC";
