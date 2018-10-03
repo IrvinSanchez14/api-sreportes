@@ -31,6 +31,7 @@ $product_arr = array(
     "nombre_alumno" =>  $product->nombre_alumno,
     "cif" =>  $product->cif,
     "id_facultad" =>  $product->id_facultad,
+    "estado"=> $product->estado,
  
 );
 // make it json format

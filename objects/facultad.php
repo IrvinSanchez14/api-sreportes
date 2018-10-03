@@ -294,7 +294,7 @@ function tablaNice () {
 
     function updateId () {
         $query = "  SELECT 
-                        t1.id_alumno,  t1.nombre_alumno, t1.cif, t1.id_facultad
+                        t1.id_alumno,  t1.nombre_alumno, t1.cif, t1.id_facultad, t1.estado
                     FROM 
                         alumnos t1
                     WHERE 
@@ -319,6 +319,7 @@ function tablaNice () {
                 $this->nombre_alumno = $row['nombre_alumno'];
                 $this->cif = $row['cif'];
                 $this->id_facultad = $row['id_facultad'];
+                $this->estado = $row['estado'];
     }
 
     function saveUpdate () {
@@ -328,7 +329,8 @@ function tablaNice () {
                 SET
                     t1.nombre_alumno = :nombre_alumno,
                     t1.cif = :cif,
-                    t1.id_facultad = :id_facultad
+                    t1.id_facultad = :id_facultad,
+                    t1.estado = :estado
                 WHERE
                     t1.id_alumno = :id_alumno";
 
@@ -340,12 +342,14 @@ function tablaNice () {
                 $this->cif=htmlspecialchars(strip_tags($this->cif));
                 $this->id_facultad=htmlspecialchars(strip_tags($this->id_facultad));
                 $this->id_alumno=htmlspecialchars(strip_tags($this->id_alumno));
+                $this->estado=htmlspecialchars(strip_tags($this->estado));
 
                 // bind new values
                 $stmt->bindParam(':nombre_alumno', $this->nombre_alumno);
                 $stmt->bindParam(':cif', $this->cif);
                 $stmt->bindParam(':id_facultad', $this->id_facultad);
                 $stmt->bindParam(':id_alumno', $this->id_alumno);
+                $stmt->bindParam(':estado', $this->estado);
 
                 // execute the query
                 if  ($stmt->execute())  {

@@ -46,7 +46,8 @@ if($num>0){
             "ideas" => $ideas,
             "asistencia" => $asistencia,
             "nombre_iglesia" => $nombre_iglesia,
-            "anios_es" => $anios_es
+            "anios_es" => $anios_es,
+            "nombre_fac" =>$nombre_fac
 
         );
  

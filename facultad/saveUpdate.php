@@ -27,6 +27,7 @@ $product->id_alumno = $data->id_alumno;
 $product->nombre_alumno = $data->nombre_alumno;
 $product->cif = $data->cif;
 $product->id_facultad = $data->id_facultad;
+$product->estado=$data->estado;
 
  
 // update the product

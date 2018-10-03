@@ -40,7 +40,7 @@ class Alumnos{
 
     function bEspecial() {
         $query = "  SELECT 
-                        t1.id_alumno as id,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono, t2.facebook, t3.expectativas, t3.ideas, t4.asistencia, t4.nombre_iglesia, t4.anios_es
+                        t1.id_alumno as id,  t1.nombre_alumno, t1.cif, EXTRACT(YEAR from t1.fecha) as fecha, t2.email, t2.telefono, t2.facebook, t3.expectativas, t3.ideas, t4.asistencia, t4.nombre_iglesia, t4.anios_es, t5.nombre_fac
             FROM 
                 " . $this ->table_name . " t1
             INNER JOIN 
@@ -49,8 +49,10 @@ class Alumnos{
                 coment_act t3 on t1.id_alumno=t3.id_alumno
             INNER JOIN 
                 iglesia_est t4 on t1.id_alumno= t4.id_alumno
+            INNER JOIN
+            	 facultad t5 on t1.id_facultad = t5.id_facultad
             WHERE
-                t1.estado = 0
+                t1.estado = 0 and t1.id_actividad = 1
             GROUP BY 
                 t1.id_alumno
             ORDER BY 
