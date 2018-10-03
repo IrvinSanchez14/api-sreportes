@@ -27,11 +27,12 @@ $product->search();
  
 // create array
 $product_arr = array(
-    "id_login" =>  $product->id_login
+    "id_login" =>  $product->id_login,
+    "id_rol" => $product->id_rol
  
 );
 
-$_SESSION['rol'] = $product_arr['id_login'];
+$_SESSION['rol'] = $product_arr['id_rol'];
  
 // make it json format
 print_r(json_encode($_SESSION['rol']));
